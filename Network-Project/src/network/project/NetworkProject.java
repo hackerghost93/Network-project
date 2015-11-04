@@ -22,7 +22,7 @@ public class NetworkProject {
         server.start();
         for(int i = 0 ; i < 20 ; i++)
         {
-            UDPClient client = new UDPClient(5732,i);
+            UDPClient client = new UDPClient(5732);
             client.start();
         }
     }

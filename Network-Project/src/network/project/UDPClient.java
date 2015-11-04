@@ -24,13 +24,12 @@ public class UDPClient extends Thread {
     final int port ;
     int clientNum ;
     
-    public UDPClient(int port,int clientNum) throws SocketException
+    public UDPClient(int port) throws SocketException
     {
         this.socket = new DatagramSocket();
         this.arg1 = (int) (Math.random() * 1000) ;
         this.arg2 = (int) (Math.random() * 1000) ;
         this.port = port ;
-        this.clientNum = clientNum ;
     }
     
     @Override
@@ -41,6 +40,7 @@ public class UDPClient extends Thread {
             BUFFER = x.getBytes();
             InetAddress ip = InetAddress.getByName("127.0.0.1");
             packet = new DatagramPacket(BUFFER , BUFFER.length,ip,port);
+            System.out.println("client " + x);
             socket.send(packet);
             socket.receive(packet);
             String output = new String(packet.getData(),0,packet.getLength());

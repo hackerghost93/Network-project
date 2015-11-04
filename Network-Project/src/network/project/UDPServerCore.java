@@ -27,10 +27,10 @@ public class UDPServerCore implements Runnable {
     
     
     
+    @Override
     public void run(){
         String x = new String(packet.getData(),0,packet.getLength());
-        System.out.println("received thread = " + Thread.currentThread().getId()
-        + " and data " + x );
+        System.out.println(x);
         String y = parseString(x);
         BUFFER = y.getBytes();
         //packet.setData(y.getBytes());
@@ -50,10 +50,10 @@ public class UDPServerCore implements Runnable {
         String arr[] = x.split(" ");
         int z = Integer.parseInt(arr[0]);
         int y = Integer.parseInt(arr[2]);
-        System.out.println("Parsing " + arr[0] + " " + z + arr[2] + " " + y
-        + " id" + Thread.currentThread().getId());
+        //System.out.println("Parsing " + arr[0] + " " + z + arr[2] + " " + y
+        //+ " id" + Thread.currentThread().getId());
         y = y + z;
-        System.out.println(Thread.currentThread().getId() + " " + y);
+        //System.out.println(Thread.currentThread().getId() + " " + y);
         return String.valueOf(y);
     }
     
