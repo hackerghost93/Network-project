@@ -22,14 +22,15 @@ public class UDPClient extends Thread {
     byte[] BUFFER = new byte[256];
     int arg1 , arg2 ;
     final int port ;
+    int clientNum ;
     
-    public UDPClient(int port) throws SocketException
+    public UDPClient(int port,int clientNum) throws SocketException
     {
-        this.socket = new DatagramSocket(port);
+        this.socket = new DatagramSocket();
         this.arg1 = (int) (Math.random() * 1000) ;
         this.arg2 = (int) (Math.random() * 1000) ;
         this.port = port ;
-        
+        this.clientNum = clientNum ;
     }
     
     @Override
@@ -43,7 +44,7 @@ public class UDPClient extends Thread {
             socket.send(packet);
             socket.receive(packet);
             String output = new String(packet.getData(),0,packet.getLength());
-            System.out.println(output);
+            System.out.println("the answer of " + x + " is " +  output);
         }
         catch(IOException e)
         {

@@ -32,16 +32,16 @@ public class UDPServerCore implements Runnable {
         System.out.println("received thread = " + Thread.currentThread().getId()
         + " and data " + x );
         String y = parseString(x);
-        byte[] RESPONSE = new byte[256];
-        RESPONSE = y.getBytes();
-        DatagramPacket res = new DatagramPacket(RESPONSE , RESPONSE.length 
+        BUFFER = y.getBytes();
+        //packet.setData(y.getBytes());
+        DatagramPacket res = new DatagramPacket(BUFFER , BUFFER.length 
         ,packet.getAddress(),packet.getPort());
         try{
         socket.send(res);
         }
         catch(IOException e)
         {
-            System.out.println("Something went worng " + e.getMessage());
+            System.out.println("Something went wrong " + e.getMessage());
         }
     }
     
@@ -49,8 +49,11 @@ public class UDPServerCore implements Runnable {
     {
         String arr[] = x.split(" ");
         int z = Integer.parseInt(arr[0]);
-        int y = Integer.parseInt(arr[1]);
+        int y = Integer.parseInt(arr[2]);
+        System.out.println("Parsing " + arr[0] + " " + z + arr[2] + " " + y
+        + " id" + Thread.currentThread().getId());
         y = y + z;
+        System.out.println(Thread.currentThread().getId() + " " + y);
         return String.valueOf(y);
     }
     
