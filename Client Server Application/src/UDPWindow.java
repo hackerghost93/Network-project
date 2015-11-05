@@ -1,12 +1,16 @@
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.SocketException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 
@@ -28,17 +32,25 @@ public class UDPWindow extends JFrame implements Runnable{
 	UDPWindow()
 	{
 		super("UCP");
-		setSize(600, 600);
+		setSize(600,600);
 		setResizable(false);
-		setLayout(null);
+		setLayout(new GridLayout(5,2));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		UDPserver.setAutoscrolls(true);
 		UDPserver.setEnabled(false);
 		UDPclient.setEnabled(false);
 		UDPserver.setFont(new Font("utf-8", Font.ITALIC, FONTSIZE));
 		UDPclient.setFont(new Font("utf-8", Font.ITALIC, FONTSIZE));
-		UDPserver.setBounds(0, 0, 300, 500);
-		UDPclient.setBounds(300, 0, 300, 500);
+//		UDPserver.setBounds(0, 0, 300, 500);	
+//		UDPclient.setBounds(0, 0, 300, 500);
+		JScrollPane clientScroll = new JScrollPane (UDPclient);
+	    clientScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	    clientScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+	    JScrollPane serverScroll = new JScrollPane (UDPserver);
+	    serverScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	    serverScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+	    serverScroll.setSize(new Dimension(300,500));
+	    clientScroll.setSize(new Dimension(300,500));
+
 		label.setBounds(0, 525, label.getText().length()*10, 25);
 		number.setBounds(label.getText().length()*8, 525, 
 				300 - (label.getText().length()*10 + 50), 25);
@@ -69,11 +81,12 @@ public class UDPWindow extends JFrame implements Runnable{
 			}
 			
 		});
-		add(UDPserver);
-		add(UDPclient);
-		add(btn);
-		add(number);
+		number.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
+		add(clientScroll);
+		add(serverScroll);
 		add(label);
+		add(number);
+		add(btn);
 	}
 	
 	public void run(){
