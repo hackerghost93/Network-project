@@ -1,6 +1,7 @@
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.SocketException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -9,14 +10,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 
-public class TCPWindow extends JFrame implements Runnable {
-	
+public class UDPWindow extends JFrame implements Runnable{
 	/**
-	 * constructor null
+	 * UDPWindow 
+	 * constructor null 
 	 */
-	private static final long serialVersionUID = 1L;
-	private JTextArea server = new JTextArea("Server");
-	private JTextArea client = new JTextArea("Client\n\n");
+	private static final long serialVersionUID = 5214317696524690836L;
+	public JTextArea UDPserver = new JTextArea("Server");
+	private JTextArea UDPclient = new JTextArea("Client\n\n");
 	private JTextArea number = new JTextArea("");
 	private JLabel label = new JLabel("Number of Clients");
 	
@@ -24,19 +25,20 @@ public class TCPWindow extends JFrame implements Runnable {
 	
 	private JButton btn = new JButton("Connect");
 	
-	
-	public TCPWindow() {
-		super("TCP");
+	UDPWindow()
+	{
+		super("UCP");
 		setSize(600, 600);
 		setResizable(false);
 		setLayout(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		server.setEnabled(false);
-		client.setEnabled(false);
-		server.setFont(new Font("utf-8", Font.ITALIC, FONTSIZE));
-		client.setFont(new Font("utf-8", Font.ITALIC, FONTSIZE));
-		server.setBounds(0, 0, 300, 500);
-		client.setBounds(300, 0, 300, 500);
+		UDPserver.setAutoscrolls(true);
+		UDPserver.setEnabled(false);
+		UDPclient.setEnabled(false);
+		UDPserver.setFont(new Font("utf-8", Font.ITALIC, FONTSIZE));
+		UDPclient.setFont(new Font("utf-8", Font.ITALIC, FONTSIZE));
+		UDPserver.setBounds(0, 0, 300, 500);
+		UDPclient.setBounds(300, 0, 300, 500);
 		label.setBounds(0, 525, label.getText().length()*10, 25);
 		number.setBounds(label.getText().length()*8, 525, 
 				300 - (label.getText().length()*10 + 50), 25);
@@ -58,23 +60,35 @@ public class TCPWindow extends JFrame implements Runnable {
 				}
 				int n = Integer.parseInt(t.toString());
 				try {
-					for(int i = 1 ; i <= n ; ++i)
-						new TCPClient("Client " + i, client).start();
+					UDPClient.writeServer = UDPclient ;
+					for(int i = 0 ; i < n ; i++)
+					{
+						new UDPClient(7999).start();
+					}
 				} catch(Exception ex) { ex.printStackTrace(); }
 			}
 			
 		});
-		add(server);
-		add(client);
+		add(UDPserver);
+		add(UDPclient);
 		add(btn);
 		add(number);
 		add(label);
 	}
-
-	@SuppressWarnings("deprecation")
-	public void run()  {
-		show();
-		new TCPServer(server).start();
-	}
 	
+	public void run(){
+		show();
+		try {
+			new UDPServer(7999,this.UDPserver).start();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		try {
+//			//new UDPServer(7891).start();
+//		} catch (SocketException e) {
+//			e.printStackTrace();
+//		}
+		
+	}
 }
