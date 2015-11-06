@@ -9,8 +9,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 
 import javax.swing.JTextArea;
 
@@ -23,7 +22,6 @@ public class UDPServer extends Thread {
     DatagramSocket socket = null ;
     DatagramPacket packet = null ;
     byte[] BUFFER = new byte[256];
-    ExecutorService executor = Executors.newFixedThreadPool(10);
  
     public UDPServer(int port,JTextArea writeServer	) throws SocketException{
         this.socket = new DatagramSocket(port);
@@ -40,7 +38,7 @@ public class UDPServer extends Thread {
             try{
                 packet = new DatagramPacket(BUFFER,BUFFER.length);
                 socket.receive(packet);
-                executor.execute(new UDPServerCore(packet,BUFFER));
+                new UDPServerCore(packet,BUFFER).run();
             }
             catch(IOException e)
             {
@@ -48,15 +46,6 @@ public class UDPServer extends Thread {
                 + e.getMessage());
             }
         }
-    }
-    
-    /**
-     * return void
-     * terminate running threads
-     */
-    public void terminate()
-    {
-        executor.shutdown();
     }
     
 }
