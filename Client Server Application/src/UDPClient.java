@@ -44,7 +44,7 @@ public class UDPClient extends Thread {
             InetAddress ip = InetAddress.getByName("127.0.0.1");
             packet = new DatagramPacket(BUFFER , BUFFER.length,ip,port);
             printOutput(new String("Client send" + x));
-            socket.send(packet);
+            sendPacket(packet);
             socket.receive(packet);
             String output = new String(packet.getData(),0,packet.getLength());
             printOutput(new String("receive " + x + "=" + output));
@@ -55,8 +55,12 @@ public class UDPClient extends Thread {
             System.out.println("UDP sending problem " + e.getMessage());
         }
     }
+    synchronized private void sendPacket(DatagramPacket packet) throws IOException
+    {
+    	this.socket.send(packet);
+    }
     
-    synchronized private void printOutput(String output)
+    synchronized private static void printOutput(String output)
     {
     	writeServer.append(output + "\n");
     	//socket.close();

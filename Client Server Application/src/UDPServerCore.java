@@ -15,14 +15,13 @@ import javax.swing.JTextArea;
  * @author HackerGhost
  */
 public class UDPServerCore implements Runnable {
-    DatagramSocket socket = null ;
+    static DatagramSocket socket ;
     DatagramPacket packet = null ;
     byte[] BUFFER = new byte[256];
     public static JTextArea writeServer ;
 
-    public UDPServerCore(DatagramSocket socket , DatagramPacket packet , 
+    public UDPServerCore(DatagramPacket packet , 
             byte[] BUFFER ) {
-        this.socket = socket ;
         this.packet = packet ;
         this.BUFFER = BUFFER ;
     }
@@ -38,12 +37,17 @@ public class UDPServerCore implements Runnable {
         DatagramPacket res = new DatagramPacket(BUFFER , BUFFER.length 
         ,packet.getAddress(),packet.getPort());
         try{
-        socket.send(res);
+        sendPacket(res);
         }
         catch(IOException e)
         {
             System.out.println("Something went wrong " + e.getMessage());
         }
+    }
+    
+    synchronized private static void sendPacket(DatagramPacket packet) throws IOException
+    {
+    	socket.send(packet);
     }
     
     synchronized private static String parseString(String x )

@@ -33,7 +33,7 @@ public class UDPWindow extends JFrame implements Runnable{
 	{
 		super("UCP");
 		setSize(600,600);
-		setResizable(false);
+		//setResizable(false);
 		setLayout(new GridLayout(5,2));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		UDPserver.setEnabled(false);

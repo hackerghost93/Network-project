@@ -27,6 +27,7 @@ public class UDPServer extends Thread {
  
     public UDPServer(int port,JTextArea writeServer	) throws SocketException{
         this.socket = new DatagramSocket(port);
+        UDPServerCore.socket = socket ;
         UDPServerCore.writeServer = writeServer ;
         writeServer.append("Establishing Connection \n" );
     }
@@ -39,7 +40,7 @@ public class UDPServer extends Thread {
             try{
                 packet = new DatagramPacket(BUFFER,BUFFER.length);
                 socket.receive(packet);
-                executor.execute(new UDPServerCore(socket,packet,BUFFER));
+                executor.execute(new UDPServerCore(packet,BUFFER));
             }
             catch(IOException e)
             {
