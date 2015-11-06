@@ -27,9 +27,9 @@ public class UDPClient extends Thread {
     int clientNum ;
     public static JTextArea writeServer  ;
     
-    public UDPClient(int port) throws SocketException
+    public UDPClient(int port,int i) throws SocketException
     {
-        this.socket = new DatagramSocket();
+        this.socket = new DatagramSocket(port+i+1);
         this.arg1 = (int) (Math.random() * 1000) ;
         this.arg2 = (int) (Math.random() * 1000) ;
         this.port = port ;
@@ -48,6 +48,7 @@ public class UDPClient extends Thread {
             socket.receive(packet);
             String output = new String(packet.getData(),0,packet.getLength());
             printOutput(new String("receive " + x + "=" + output));
+            socket.close();
         }
         catch(IOException e)
         {
@@ -58,5 +59,6 @@ public class UDPClient extends Thread {
     synchronized private void printOutput(String output)
     {
     	writeServer.append(output + "\n");
+    	//socket.close();
     }
 }

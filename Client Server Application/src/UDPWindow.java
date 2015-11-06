@@ -73,10 +73,13 @@ public class UDPWindow extends JFrame implements Runnable{
 				int n = Integer.parseInt(t.toString());
 				try {
 					UDPClient.writeServer = UDPclient ;
+					UDPClient[] clients  = new UDPClient[50] ;
 					for(int i = 0 ; i < n ; i++)
 					{
-						new UDPClient(7999).start();
+						clients[i]= new UDPClient(7999,i);
 					}
+					for(int i = 0 ; i < n ; i++)
+						clients[i].start();
 				} catch(Exception ex) { ex.printStackTrace(); }
 			}
 			
