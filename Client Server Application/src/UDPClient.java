@@ -39,15 +39,18 @@ public class UDPClient extends Thread {
     public void run()
     {
         try{
+        	///initiate the request packet
             String x = arg1 + " + " + arg2;
             BUFFER = x.getBytes();
             InetAddress ip = InetAddress.getByName("127.0.0.1");
             packet = new DatagramPacket(BUFFER , BUFFER.length,ip,port);
             printOutput(new String("Client send" + x));
             sendPacket(packet);
+            /// he will wait here until received
             socket.receive(packet);
             String output = new String(packet.getData(),0,packet.getLength());
             printOutput(new String("receive " + x + "=" + output));
+            /// you need to close the socket after you finish
             socket.close();
         }
         catch(IOException e)
@@ -57,12 +60,13 @@ public class UDPClient extends Thread {
     }
     synchronized private void sendPacket(DatagramPacket packet) throws IOException
     {
+    	// send Packet
     	this.socket.send(packet);
     }
     
     synchronized private static void printOutput(String output)
     {
+    	/// you need to be synchronized when writing on JTextArea or dealing with GUI
     	writeServer.append(output + "\n");
-    	//socket.close();
     }
 }

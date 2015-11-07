@@ -23,6 +23,7 @@ public class UDPServer extends Thread {
     DatagramPacket packet = null ;
     byte[] BUFFER = new byte[256];
  
+    // Add Server Socket number and Reference where the Server will write
     public UDPServer(int port,JTextArea writeServer	) throws SocketException{
         this.socket = new DatagramSocket(port);
         UDPServerCore.socket = socket ;
@@ -31,10 +32,12 @@ public class UDPServer extends Thread {
     }
     
     @Override
+    /// Start Server Thread
     public void run()
     {
         while(true)
         {
+        	/// When I receive I make a core Thread and handle it
             try{
                 packet = new DatagramPacket(BUFFER,BUFFER.length);
                 socket.receive(packet);

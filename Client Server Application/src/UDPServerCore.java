@@ -30,13 +30,17 @@ public class UDPServerCore implements Runnable {
     
     @Override
     public void run(){
+    	/// Get data from packet
         String x = new String(packet.getData(),0,packet.getLength());
+        /// Call the function to solve the string and return the answer
         String y = parseString(x);
+        /// the answer i will put it in buffer
         BUFFER = y.getBytes();
-        //packet.setData(y.getBytes());
+        /// Make data for sending the packet
         DatagramPacket res = new DatagramPacket(BUFFER , BUFFER.length 
         ,packet.getAddress(),packet.getPort());
         try{
+        	/// Send the packet
         sendPacket(res);
         }
         catch(IOException e)
@@ -47,11 +51,14 @@ public class UDPServerCore implements Runnable {
     
     synchronized private static void sendPacket(DatagramPacket packet) throws IOException
     {
+    	/// Just as i solved error 
+    	/// making a pool for threads you should implement it with your hand not using ExecutorService
     	socket.send(packet);
     }
     
     synchronized private static String parseString(String x )
     {
+    	/// Parse and Solve
         String arr[] = x.split(" ");
         int z = Integer.parseInt(arr[0]);
         int y = Integer.parseInt(arr[2]);
