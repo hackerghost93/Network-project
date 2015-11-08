@@ -1,6 +1,4 @@
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -12,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -25,7 +22,7 @@ public class TCPWindow extends JFrame implements Runnable {
 	private static final long serialVersionUID = 1L;
 	private JTextArea server = new JTextArea("Server");
 	private JTextArea client = new JTextArea("Client\n\n");
-	private JTextArea number = new JTextArea("Number");
+	private JTextArea number = new JTextArea("");
 	private JLabel label = new JLabel("Number of Clients");
 	
 	private static final int FONTSIZE = 16; 
@@ -37,14 +34,7 @@ public class TCPWindow extends JFrame implements Runnable {
 		super("TCP");
 		setSize(600, 600);
 		setResizable(false);
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		JPanel textPanel = new JPanel();
-		JPanel bottomPanel= new JPanel();
-		textPanel.setLayout(new GridLayout(1,2));
-		bottomPanel.setLayout(new FlowLayout());
-		panel.add(textPanel,BorderLayout.CENTER);
-		panel.add(bottomPanel,BorderLayout.SOUTH);
+		setLayout(new GridLayout(5,2));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		server.setEnabled(false);
 		client.setEnabled(false);
@@ -87,14 +77,12 @@ public class TCPWindow extends JFrame implements Runnable {
 			}
 			
 		});
-	    number.setMinimumSize(new Dimension(270,280));
 		number.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
-		textPanel.add(clientScroll);
-		textPanel.add(serverScroll);
-		bottomPanel.add(label);
-		bottomPanel.add(number);
-		bottomPanel.add(btn);
-		add(panel);
+		add(clientScroll);
+		add(serverScroll);
+		add(btn);
+		add(number);
+		add(label);
 	}
 
 	@SuppressWarnings("deprecation")
